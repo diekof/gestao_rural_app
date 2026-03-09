@@ -1,1 +1,15 @@
-import 'package:flutter/material.dart'; class MachineRecordsPage extends StatelessWidget { const MachineRecordsPage({super.key}); @override Widget build(BuildContext context)=>Scaffold(appBar: AppBar(title: const Text('Registros de Máquinas')), body: const Center(child: Text('Listagem de registros')));} 
+import 'package:flutter/material.dart';
+
+import '../../shared/widgets/module_scaffold.dart';
+
+class MachineRecordsPage extends StatelessWidget {
+  const MachineRecordsPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const ModuleScaffold(
+      title: 'Registros de Máquinas',
+      child: Center(child: Text('Listagem de registros')),
+    );
+  }
+}

@@ -5,7 +5,9 @@ class LoginUseCase {
   LoginUseCase(this._repository);
   final AuthRepository _repository;
 
-  Future<AuthSessionEntity> call({required String email, required String password}) {
-    return _repository.login(email: email, password: password);
+  Future<AuthSessionEntity> call(
+      {required String usernameOrEmail, required String password}) {
+    return _repository.login(
+        usernameOrEmail: usernameOrEmail, password: password);
   }
 }

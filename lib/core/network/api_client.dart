@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logger/logger.dart';
 
@@ -10,15 +9,18 @@ import '../storage/token_storage.dart';
 import 'interceptors/auth_interceptor.dart';
 import 'interceptors/refresh_token_interceptor.dart';
 
+const _defaultBaseUrl = 'http://localhost:8080';
+const _apiBaseUrl =
+    String.fromEnvironment('API_BASE_URL', defaultValue: _defaultBaseUrl);
+
 Dio _createBaseDio() {
-  final dio = Dio(BaseOptions(baseUrl: 'http://localhost:8080'));
+  final dio = Dio(BaseOptions(baseUrl: _apiBaseUrl));
   dio.interceptors.add(LogInterceptor(responseBody: true, requestBody: true));
   return dio;
 }
 
 final loggerProvider = Provider<Logger>((ref) => Logger());
-final secureStorageProvider = Provider<FlutterSecureStorage>((ref) => const FlutterSecureStorage());
-final tokenStorageProvider = Provider<TokenStorage>((ref) => TokenStorage(ref.read(secureStorageProvider)));
+final tokenStorageProvider = Provider<TokenStorage>((ref) => TokenStorage());
 
 final apiClientProvider = Provider<Dio>((ref) {
   final dio = _createBaseDio();
@@ -38,5 +40,6 @@ final authRemoteDatasourceProvider = Provider<AuthRemoteDatasource>((ref) {
 });
 
 final authRepositoryProvider = Provider<AuthRepository>((ref) {
-  return AuthRepositoryImpl(ref.read(authRemoteDatasourceProvider), ref.read(tokenStorageProvider));
+  return AuthRepositoryImpl(
+      ref.read(authRemoteDatasourceProvider), ref.read(tokenStorageProvider));
 });

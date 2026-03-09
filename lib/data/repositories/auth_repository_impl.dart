@@ -11,9 +11,11 @@ class AuthRepositoryImpl implements AuthRepository {
   final TokenStorage _tokenStorage;
 
   @override
-  Future<AuthSessionEntity> login({required String email, required String password}) async {
-    final session = await _remoteDatasource.login(email, password);
-    await _tokenStorage.saveTokens(accessToken: session.accessToken, refreshToken: session.refreshToken);
+  Future<AuthSessionEntity> login(
+      {required String usernameOrEmail, required String password}) async {
+    final session = await _remoteDatasource.login(usernameOrEmail, password);
+    await _tokenStorage.saveTokens(
+        accessToken: session.accessToken, refreshToken: session.refreshToken);
     return session.toEntity();
   }
 
@@ -21,8 +23,13 @@ class AuthRepositoryImpl implements AuthRepository {
   Future<UserEntity?> getCurrentUser() async {
     final accessToken = await _tokenStorage.getAccessToken();
     if (accessToken == null) return null;
-    final me = await _remoteDatasource.me(accessToken);
-    return me.toEntity();
+    try {
+      final me = await _remoteDatasource.me(accessToken);
+      return me.toEntity();
+    } catch (_) {
+      await _tokenStorage.clear();
+      return null;
+    }
   }
 
   @override
@@ -32,8 +39,14 @@ class AuthRepositoryImpl implements AuthRepository {
   Future<String?> refreshToken() async {
     final refresh = await _tokenStorage.getRefreshToken();
     if (refresh == null) return null;
-    final session = await _remoteDatasource.refresh(refresh);
-    await _tokenStorage.saveTokens(accessToken: session.accessToken, refreshToken: session.refreshToken);
-    return session.accessToken;
+    try {
+      final session = await _remoteDatasource.refresh(refresh);
+      await _tokenStorage.saveTokens(
+          accessToken: session.accessToken, refreshToken: session.refreshToken);
+      return session.accessToken;
+    } catch (_) {
+      await _tokenStorage.clear();
+      return null;
+    }
   }
 }

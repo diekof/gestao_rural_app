@@ -1,1 +1,15 @@
-import 'package:flutter/material.dart'; class FieldsPage extends StatelessWidget { const FieldsPage({super.key}); @override Widget build(BuildContext context)=>Scaffold(appBar: AppBar(title: const Text('Talhões')), body: const Center(child: Text('Listagem de talhões')));} 
+import 'package:flutter/material.dart';
+
+import '../../shared/widgets/module_scaffold.dart';
+
+class FieldsPage extends StatelessWidget {
+  const FieldsPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const ModuleScaffold(
+      title: 'Talhões',
+      child: Center(child: Text('Listagem de talhões')),
+    );
+  }
+}

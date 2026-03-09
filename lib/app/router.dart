@@ -9,6 +9,7 @@ import '../presentation/modules/dashboard/dashboard_page.dart';
 import '../presentation/modules/farms/farms_page.dart';
 import '../presentation/modules/fields/fields_page.dart';
 import '../presentation/modules/financial/financial_page.dart';
+import '../presentation/modules/home/home_page.dart';
 import '../presentation/modules/machine_records/machine_records_page.dart';
 import '../presentation/modules/machines/machines_page.dart';
 import '../presentation/modules/operations/operations_page.dart';
@@ -22,6 +23,7 @@ final appRouterProvider = Provider<GoRouter>((ref) {
     routes: [
       GoRoute(path: '/', builder: (_, __) => const SplashPage()),
       GoRoute(path: '/login', builder: (_, __) => const LoginPage()),
+      GoRoute(path: '/home', builder: (_, __) => const HomePage()),
       GoRoute(path: '/dashboard', builder: (_, __) => const DashboardPage()),
       GoRoute(path: '/farms', builder: (_, __) => const FarmsPage()),
       GoRoute(path: '/farms/new', builder: (_, __) => const FarmFormPage()),
@@ -30,7 +32,9 @@ final appRouterProvider = Provider<GoRouter>((ref) {
       GoRoute(path: '/seasons', builder: (_, __) => const SeasonsPage()),
       GoRoute(path: '/operations', builder: (_, __) => const OperationsPage()),
       GoRoute(path: '/machines', builder: (_, __) => const MachinesPage()),
-      GoRoute(path: '/machine-records', builder: (_, __) => const MachineRecordsPage()),
+      GoRoute(
+          path: '/machine-records',
+          builder: (_, __) => const MachineRecordsPage()),
       GoRoute(path: '/financial', builder: (_, __) => const FinancialPage()),
       GoRoute(path: '/ai', builder: (_, __) => const AiPage()),
       GoRoute(path: '/satellite', builder: (_, __) => const SatellitePage()),

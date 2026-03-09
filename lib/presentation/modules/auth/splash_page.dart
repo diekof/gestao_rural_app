@@ -16,17 +16,18 @@ class _SplashPageState extends ConsumerState<SplashPage> {
   @override
   void initState() {
     super.initState();
-    Future.microtask(() => ref.read(authViewModelProvider.notifier).restoreSession());
+    Future.microtask(
+        () => ref.read(authViewModelProvider.notifier).restoreSession());
   }
 
   @override
   Widget build(BuildContext context) {
-    final state = ref.watch(authViewModelProvider);
     ref.listen(authViewModelProvider, (previous, next) {
       if (next.status == ViewStatus.success) {
-        context.go(next.isAuthenticated ? '/dashboard' : '/login');
+        context.go(next.isAuthenticated ? '/home' : '/login');
       }
     });
+    ref.watch(authViewModelProvider);
     return const Scaffold(body: Center(child: CircularProgressIndicator()));
   }
 }
