@@ -1,0 +1,1 @@
+import 'package:flutter/material.dart'; class FinancialPage extends StatelessWidget { const FinancialPage({super.key}); @override Widget build(BuildContext context)=>Scaffold(appBar: AppBar(title: const Text('Financeiro')), body: const Center(child: Text('Entradas financeiras com filtros')));} 

@@ -1,0 +1,1 @@
+import 'package:flutter/material.dart'; class MachineRecordsPage extends StatelessWidget { const MachineRecordsPage({super.key}); @override Widget build(BuildContext context)=>Scaffold(appBar: AppBar(title: const Text('Registros de Máquinas')), body: const Center(child: Text('Listagem de registros')));} 

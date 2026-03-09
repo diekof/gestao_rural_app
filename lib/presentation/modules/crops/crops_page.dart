@@ -1,0 +1,1 @@
+import 'package:flutter/material.dart'; class CropsPage extends StatelessWidget { const CropsPage({super.key}); @override Widget build(BuildContext context)=>Scaffold(appBar: AppBar(title: const Text('Culturas')), body: const Center(child: Text('Listagem de culturas')));} 

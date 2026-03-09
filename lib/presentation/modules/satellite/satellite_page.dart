@@ -1,0 +1,1 @@
+import 'package:flutter/material.dart'; class SatellitePage extends StatelessWidget { const SatellitePage({super.key}); @override Widget build(BuildContext context)=>Scaffold(appBar: AppBar(title: const Text('Satélite')), body: const Center(child: Text('Imagens e histórico NDVI')));} 
