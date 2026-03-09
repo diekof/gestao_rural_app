@@ -17,8 +17,11 @@ class AuthRemoteDatasource {
     return AuthSessionModel.fromJson(response.data as Map<String, dynamic>);
   }
 
-  Future<UserModel> me() async {
-    final response = await _dio.get(ApiEndpoints.authMe);
+  Future<UserModel> me(String accessToken) async {
+    final response = await _dio.get(
+      ApiEndpoints.authMe,
+      options: Options(headers: {'Authorization': 'Bearer $accessToken'}),
+    );
     return UserModel.fromJson(response.data as Map<String, dynamic>);
   }
 }

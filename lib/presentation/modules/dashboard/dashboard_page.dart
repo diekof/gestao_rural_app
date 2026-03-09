@@ -38,17 +38,17 @@ class _DashboardPageState extends ConsumerState<DashboardPage> {
                     padding: const EdgeInsets.all(16),
                     children: [
                       Wrap(spacing: 12, runSpacing: 12, children: [
-                        StatCard(title: 'Receita Total', value: 'R$ ${data?.totalRevenue ?? 0}'),
-                        StatCard(title: 'Despesa Total', value: 'R$ ${data?.totalExpense ?? 0}'),
-                        StatCard(title: 'Lucro Estimado', value: 'R$ ${data?.estimatedProfit ?? 0}'),
+                        StatCard(title: 'Receita Total', value: 'R\$ ${data?.totalRevenue ?? 0}'),
+                        StatCard(title: 'Despesa Total', value: 'R\$ ${data?.totalExpense ?? 0}'),
+                        StatCard(title: 'Lucro Estimado', value: 'R\$ ${data?.estimatedProfit ?? 0}'),
                         StatCard(title: 'Fazendas', value: '${data?.totalFarms ?? 0}'),
                       ]),
                       const SizedBox(height: 24),
-                      const SizedBox(
+                      SizedBox(
                         height: 220,
                         child: Card(
                           child: Padding(
-                            padding: EdgeInsets.all(16),
+                            padding: const EdgeInsets.all(16),
                             child: BarChart(BarChartData(barGroups: [BarChartGroupData(x: 0, barRods: [BarChartRodData(toY: 20)]), BarChartGroupData(x: 1, barRods: [BarChartRodData(toY: 15)])])),
                           ),
                         ),

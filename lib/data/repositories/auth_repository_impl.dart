@@ -21,7 +21,7 @@ class AuthRepositoryImpl implements AuthRepository {
   Future<UserEntity?> getCurrentUser() async {
     final accessToken = await _tokenStorage.getAccessToken();
     if (accessToken == null) return null;
-    final me = await _remoteDatasource.me();
+    final me = await _remoteDatasource.me(accessToken);
     return me.toEntity();
   }
 
