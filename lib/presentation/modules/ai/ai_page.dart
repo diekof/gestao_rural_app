@@ -1,0 +1,1 @@
+import 'package:flutter/material.dart'; class AiPage extends StatelessWidget { const AiPage({super.key}); @override Widget build(BuildContext context)=>Scaffold(appBar: AppBar(title: const Text('IA Agro')), body: const Center(child: Text('Previsão e análise de risco')));} 
