@@ -11,4 +11,7 @@ abstract class AgroRepository {
   Future<List<FinancialEntryEntity>> getFinancialEntries();
   Future<List<SatelliteImageEntity>> getSatelliteImages();
   Future<AiResultEntity> getRiskAnalysis(Map<String, dynamic> input);
+  Future<List<FuelCreditEntity>> getFuelCredits({String? userId});
+  Future<List<FuelSupplyEntity>> getFuelSupplies({String? userId});
+  Future<FuelSupplyEntity> createFuelSupply(FuelSupplyInput input);
 }

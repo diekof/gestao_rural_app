@@ -89,6 +89,7 @@ class _ModulesGrid extends StatelessWidget {
     _ModuleItem('Operacoes', '/operations', Icons.handyman_outlined),
     _ModuleItem('Maquinas', '/machines', Icons.agriculture),
     _ModuleItem('Registros', '/machine-records', Icons.receipt_long),
+    _ModuleItem('Abastecimento', '/fuel', Icons.local_gas_station),
     _ModuleItem('Financeiro', '/financial', Icons.attach_money),
     _ModuleItem('IA', '/ai', Icons.psychology_alt_outlined),
     _ModuleItem('Satelite', '/satellite', Icons.satellite_alt),

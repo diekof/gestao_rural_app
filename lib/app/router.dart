@@ -9,6 +9,7 @@ import '../presentation/modules/dashboard/dashboard_page.dart';
 import '../presentation/modules/farms/farms_page.dart';
 import '../presentation/modules/fields/fields_page.dart';
 import '../presentation/modules/financial/financial_page.dart';
+import '../presentation/modules/fuel/fuel_page.dart';
 import '../presentation/modules/home/home_page.dart';
 import '../presentation/modules/machine_records/machine_records_page.dart';
 import '../presentation/modules/machines/machines_page.dart';
@@ -35,6 +36,7 @@ final appRouterProvider = Provider<GoRouter>((ref) {
       GoRoute(
           path: '/machine-records',
           builder: (_, __) => const MachineRecordsPage()),
+      GoRoute(path: '/fuel', builder: (_, __) => const FuelPage()),
       GoRoute(path: '/financial', builder: (_, __) => const FinancialPage()),
       GoRoute(path: '/ai', builder: (_, __) => const AiPage()),
       GoRoute(path: '/satellite', builder: (_, __) => const SatellitePage()),

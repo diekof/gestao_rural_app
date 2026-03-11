@@ -6,26 +6,141 @@ class AgroRepositoryImpl implements AgroRepository {
   AgroRepositoryImpl(this._datasource);
   final AgroRemoteDatasource _datasource;
 
-  List<T> _mapList<T>(List<Map<String, dynamic>> data, T Function(Map<String, dynamic>) mapper) => data.map(mapper).toList();
+  List<T> _mapList<T>(List<Map<String, dynamic>> data,
+          T Function(Map<String, dynamic>) mapper) =>
+      data.map(mapper).toList();
+
+  double _toDouble(dynamic value) => (value as num?)?.toDouble() ?? 0;
+  DateTime? _parseDate(dynamic value) =>
+      value == null ? null : DateTime.tryParse(value.toString());
 
   @override
-  Future<List<FarmEntity>> getFarms() async => _mapList(await _datasource.farms(), (j) => FarmEntity(id: '${j['id']}', name: j['name'] ?? '', owner: j['owner'] ?? '', city: j['city'] ?? '', state: j['state'] ?? ''));
+  Future<List<FarmEntity>> getFarms() async => _mapList(
+      await _datasource.farms(),
+      (j) => FarmEntity(
+          id: '${j['id']}',
+          name: j['name'] ?? '',
+          owner: j['owner'] ?? '',
+          city: j['city'] ?? '',
+          state: j['state'] ?? ''));
   @override
-  Future<List<FieldEntity>> getFields() async => _mapList(await _datasource.fields(), (j) => FieldEntity(id: '${j['id']}', name: j['name'] ?? '', farmId: '${j['farmId'] ?? ''}'));
+  Future<List<FieldEntity>> getFields() async => _mapList(
+      await _datasource.fields(),
+      (j) => FieldEntity(
+          id: '${j['id']}',
+          name: j['name'] ?? '',
+          farmId: '${j['farmId'] ?? ''}'));
   @override
-  Future<List<CropEntity>> getCrops() async => _mapList(await _datasource.crops(), (j) => CropEntity(id: '${j['id']}', name: j['name'] ?? '', category: j['category'] ?? ''));
+  Future<List<CropEntity>> getCrops() async => _mapList(
+      await _datasource.crops(),
+      (j) => CropEntity(
+          id: '${j['id']}',
+          name: j['name'] ?? '',
+          category: j['category'] ?? ''));
   @override
-  Future<List<SeasonEntity>> getSeasons() async => _mapList(await _datasource.seasons(), (j) => SeasonEntity(id: '${j['id']}', name: j['name'] ?? '', year: (j['year'] as num?)?.toInt() ?? 0));
+  Future<List<SeasonEntity>> getSeasons() async => _mapList(
+      await _datasource.seasons(),
+      (j) => SeasonEntity(
+          id: '${j['id']}',
+          name: j['name'] ?? '',
+          year: (j['year'] as num?)?.toInt() ?? 0));
   @override
-  Future<List<OperationEntity>> getOperations() async => _mapList(await _datasource.operations(), (j) => OperationEntity(id: '${j['id']}', type: j['type'] ?? '', description: j['description'] ?? ''));
+  Future<List<OperationEntity>> getOperations() async => _mapList(
+      await _datasource.operations(),
+      (j) => OperationEntity(
+          id: '${j['id']}',
+          type: j['type'] ?? '',
+          description: j['description'] ?? ''));
   @override
-  Future<List<MachineEntity>> getMachines() async => _mapList(await _datasource.machines(), (j) => MachineEntity(id: '${j['id']}', name: j['name'] ?? '', type: j['type'] ?? ''));
+  Future<List<MachineEntity>> getMachines() async => _mapList(
+      await _datasource.machines(),
+      (j) => MachineEntity(
+          id: '${j['id']}', name: j['name'] ?? '', type: j['type'] ?? ''));
   @override
-  Future<List<MachineRecordEntity>> getMachineRecords() async => _mapList(await _datasource.machineRecords(), (j) => MachineRecordEntity(id: '${j['id']}', machineId: '${j['machineId'] ?? ''}', recordType: j['recordType'] ?? ''));
+  Future<List<MachineRecordEntity>> getMachineRecords() async => _mapList(
+      await _datasource.machineRecords(),
+      (j) => MachineRecordEntity(
+          id: '${j['id']}',
+          machineId: '${j['machineId'] ?? ''}',
+          recordType: j['recordType'] ?? ''));
   @override
-  Future<List<FinancialEntryEntity>> getFinancialEntries() async => _mapList(await _datasource.financialEntries(), (j) => FinancialEntryEntity(id: '${j['id']}', type: j['type'] ?? '', description: j['description'] ?? '', value: (j['value'] as num?)?.toDouble() ?? 0));
+  Future<List<FinancialEntryEntity>> getFinancialEntries() async => _mapList(
+      await _datasource.financialEntries(),
+      (j) => FinancialEntryEntity(
+          id: '${j['id']}',
+          type: j['type'] ?? '',
+          description: j['description'] ?? '',
+          value: (j['value'] as num?)?.toDouble() ?? 0));
   @override
-  Future<List<SatelliteImageEntity>> getSatelliteImages() async => _mapList(await _datasource.satelliteImages(), (j) => SatelliteImageEntity(id: '${j['id']}', provider: j['provider'] ?? '', ndviAverage: (j['ndviAverage'] as num?)?.toDouble() ?? 0, thumbnailUrl: j['thumbnailUrl'] ?? ''));
+  Future<List<SatelliteImageEntity>> getSatelliteImages() async => _mapList(
+      await _datasource.satelliteImages(),
+      (j) => SatelliteImageEntity(
+          id: '${j['id']}',
+          provider: j['provider'] ?? '',
+          ndviAverage: (j['ndviAverage'] as num?)?.toDouble() ?? 0,
+          thumbnailUrl: j['thumbnailUrl'] ?? ''));
   @override
-  Future<AiResultEntity> getRiskAnalysis(Map<String, dynamic> input) async { final j = await _datasource.aiRisk(input); return AiResultEntity(score: (j['score'] as num?)?.toDouble() ?? 0, recommendations: (j['recommendations'] as List?)?.map((e) => '$e').toList() ?? []); }
+  Future<AiResultEntity> getRiskAnalysis(Map<String, dynamic> input) async {
+    final j = await _datasource.aiRisk(input);
+    return AiResultEntity(
+        score: (j['score'] as num?)?.toDouble() ?? 0,
+        recommendations:
+            (j['recommendations'] as List?)?.map((e) => '$e').toList() ?? []);
+  }
+
+  @override
+  Future<List<FuelCreditEntity>> getFuelCredits({String? userId}) async {
+    final query = {'userId': userId, 'size': 200};
+    final data = await _datasource.fuelCredits(query: query);
+    return _mapList(data, _mapFuelCredit);
+  }
+
+  @override
+  Future<List<FuelSupplyEntity>> getFuelSupplies({String? userId}) async {
+    final query = {'userId': userId, 'size': 200, 'sort': 'abastecidoEm,desc'};
+    final data = await _datasource.fuelSupplies(query: query);
+    return _mapList(data, _mapFuelSupply);
+  }
+
+  @override
+  Future<FuelSupplyEntity> createFuelSupply(FuelSupplyInput input) async {
+    final payload = {
+      'userId': input.userId,
+      'machineId': input.machineId,
+      'valor': input.value,
+      'litros': input.liters,
+      'abastecidoEm': input.date.toUtc().toIso8601String(),
+      'localizacao': input.location,
+      'observacao': input.note,
+    }..removeWhere((key, value) => value == null);
+    final json = await _datasource.createFuelSupply(payload);
+    return _mapFuelSupply(json);
+  }
+
+  FuelCreditEntity _mapFuelCredit(Map<String, dynamic> json) {
+    return FuelCreditEntity(
+      id: '${json['id']}',
+      userId: '${json['userId']}',
+      userName: json['userName'] ?? '',
+      creditLimit: _toDouble(json['creditLimit']),
+      balance: _toDouble(json['balance']),
+      status: json['status'] ?? '',
+      lastRechargeAt: _parseDate(json['lastRechargeAt']),
+    );
+  }
+
+  FuelSupplyEntity _mapFuelSupply(Map<String, dynamic> json) {
+    return FuelSupplyEntity(
+      id: '${json['id']}',
+      userId: '${json['userId']}',
+      workerName: json['workerName'] ?? '',
+      machineId: json['machineId']?.toString(),
+      machineName: json['machineName'] as String?,
+      liters: _toDouble(json['litros']),
+      value: _toDouble(json['valor']),
+      madeAt: _parseDate(json['abastecidoEm']) ?? DateTime.now(),
+      location: json['localizacao'] as String?,
+      note: json['observacao'] as String?,
+    );
+  }
 }

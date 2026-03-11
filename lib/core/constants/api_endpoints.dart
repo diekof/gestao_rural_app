@@ -14,6 +14,8 @@ class ApiEndpoints {
   static const machines = '/api/machines';
   static const machineRecords = '/api/machine-records';
   static const financialEntries = '/api/financial-entries';
+  static const fuelCredits = '/api/fuel-credits';
+  static const fuelSupplies = '/api/fuel-supplies';
   static const aiProductivityForecast = '/api/ai/productivity-forecast';
   static const aiRiskAnalysis = '/api/ai/risk-analysis';
   static const satelliteImages = '/api/satellite/images';
