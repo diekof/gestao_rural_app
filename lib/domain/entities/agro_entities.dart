@@ -57,13 +57,52 @@ class OperationEntity extends Equatable {
 }
 
 class MachineEntity extends Equatable {
-  const MachineEntity(
-      {required this.id, required this.name, required this.type});
+  const MachineEntity({
+    required this.id,
+    required this.name,
+    this.code,
+    this.type,
+    this.manufacturer,
+    this.model,
+    this.year,
+    this.status,
+    this.hourMeter,
+    this.notes,
+    this.createdAt,
+    this.updatedAt,
+    this.tenantId,
+  });
+
   final String id;
   final String name;
-  final String type;
+  final String? code;
+  final String? type;
+  final String? manufacturer;
+  final String? model;
+  final int? year;
+  final String? status;
+  final double? hourMeter;
+  final String? notes;
+  final DateTime? createdAt;
+  final DateTime? updatedAt;
+  final String? tenantId;
+
   @override
-  List<Object?> get props => [id, name, type];
+  List<Object?> get props => [
+        id,
+        name,
+        code,
+        type,
+        manufacturer,
+        model,
+        year,
+        status,
+        hourMeter,
+        notes,
+        createdAt,
+        updatedAt,
+        tenantId,
+      ];
 }
 
 class MachineRecordEntity extends Equatable {
@@ -189,6 +228,7 @@ class FuelSupplyInput {
     this.machineId,
     this.location,
     this.note,
+    this.tenantId,
   });
 
   final double value;
@@ -198,4 +238,31 @@ class FuelSupplyInput {
   final String? machineId;
   final String? location;
   final String? note;
+  final String? tenantId;
+}
+
+class MachineInput {
+  const MachineInput({
+    required this.code,
+    required this.name,
+    required this.type,
+    required this.manufacturer,
+    required this.model,
+    required this.year,
+    required this.status,
+    required this.hourMeter,
+    this.notes,
+    this.tenantId,
+  });
+
+  final String code;
+  final String name;
+  final String type;
+  final String manufacturer;
+  final String model;
+  final int year;
+  final String status;
+  final double hourMeter;
+  final String? notes;
+  final String? tenantId;
 }

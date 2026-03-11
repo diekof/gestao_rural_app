@@ -21,17 +21,23 @@ class ModuleScaffold extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(title),
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () => _goHome(context),
+    return WillPopScope(
+      onWillPop: () async {
+        _goHome(context);
+        return false;
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(title),
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back),
+            onPressed: () => _goHome(context),
+          ),
+          actions: actions,
         ),
-        actions: actions,
+        body: child,
+        floatingActionButton: floatingActionButton,
       ),
-      body: child,
-      floatingActionButton: floatingActionButton,
     );
   }
 }

@@ -6,7 +6,8 @@ import '../datasources/agro_remote_datasource.dart';
 import '../repositories/agro_repository_impl.dart';
 
 final agroRemoteDatasourceProvider = Provider<AgroRemoteDatasource>(
-  (ref) => AgroRemoteDatasource(ref.read(apiClientProvider)),
+  (ref) =>
+      AgroRemoteDatasource(ref.read(apiClientProvider), ref.read(tokenStorageProvider)),
 );
 
 final agroRepositoryProvider = Provider<AgroRepository>(

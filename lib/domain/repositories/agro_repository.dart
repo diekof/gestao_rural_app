@@ -7,6 +7,9 @@ abstract class AgroRepository {
   Future<List<SeasonEntity>> getSeasons();
   Future<List<OperationEntity>> getOperations();
   Future<List<MachineEntity>> getMachines();
+  Future<MachineEntity> createMachine(MachineInput input);
+  Future<MachineEntity> updateMachine(String id, MachineInput input);
+  Future<void> deleteMachine(String id);
   Future<List<MachineRecordEntity>> getMachineRecords();
   Future<List<FinancialEntryEntity>> getFinancialEntries();
   Future<List<SatelliteImageEntity>> getSatelliteImages();

@@ -52,10 +52,26 @@ class AgroRepositoryImpl implements AgroRepository {
           type: j['type'] ?? '',
           description: j['description'] ?? ''));
   @override
-  Future<List<MachineEntity>> getMachines() async => _mapList(
-      await _datasource.machines(),
-      (j) => MachineEntity(
-          id: '${j['id']}', name: j['name'] ?? '', type: j['type'] ?? ''));
+  Future<List<MachineEntity>> getMachines() async =>
+      _mapList(await _datasource.machines(), _mapMachine);
+
+  @override
+  Future<MachineEntity> createMachine(MachineInput input) async {
+    final json = await _datasource.createMachine(
+      _machinePayload(input),
+      tenantId: input.tenantId,
+    );
+    return _mapMachine(json);
+  }
+
+  @override
+  Future<MachineEntity> updateMachine(String id, MachineInput input) async {
+    final json = await _datasource.updateMachine(id, _machinePayload(input));
+    return _mapMachine(json);
+  }
+
+  @override
+  Future<void> deleteMachine(String id) => _datasource.deleteMachine(id);
   @override
   Future<List<MachineRecordEntity>> getMachineRecords() async => _mapList(
       await _datasource.machineRecords(),
@@ -113,7 +129,8 @@ class AgroRepositoryImpl implements AgroRepository {
       'localizacao': input.location,
       'observacao': input.note,
     }..removeWhere((key, value) => value == null);
-    final json = await _datasource.createFuelSupply(payload);
+    final json = await _datasource.createFuelSupply(payload,
+        tenantId: input.tenantId);
     return _mapFuelSupply(json);
   }
 
@@ -143,4 +160,34 @@ class AgroRepositoryImpl implements AgroRepository {
       note: json['observacao'] as String?,
     );
   }
+
+  MachineEntity _mapMachine(Map<String, dynamic> json) {
+    return MachineEntity(
+      id: '${json['id']}',
+      name: json['nome'] ?? '',
+      code: json['codigo'] as String?,
+      type: json['tipo']?.toString(),
+      manufacturer: json['fabricante'] as String?,
+      model: json['modelo'] as String?,
+      year: (json['anoFabricacao'] as num?)?.toInt(),
+      status: json['status']?.toString(),
+      hourMeter: _toDouble(json['horimetroAtual']),
+      notes: json['observacoes'] as String?,
+      createdAt: _parseDate(json['createdAt']),
+      updatedAt: _parseDate(json['updatedAt']),
+      tenantId: json['tenantId']?.toString(),
+    );
+  }
+
+  Map<String, dynamic> _machinePayload(MachineInput input) => {
+        'codigo': input.code,
+        'nome': input.name,
+        'tipo': input.type,
+        'fabricante': input.manufacturer,
+        'modelo': input.model,
+        'anoFabricacao': input.year,
+        'status': input.status,
+        'horimetroAtual': input.hourMeter,
+        'observacoes': input.notes,
+      }..removeWhere((_, value) => value == null);
 }
